@@ -108,6 +108,11 @@ Item {
             visible: false;
             anchors.fill: parent;
         }
+        CurrentSong{
+	    id: currentsongpage;
+	    visible: false;
+	    anchors.fill: parent;
+	}
     }
 
     Column{
@@ -562,8 +567,19 @@ Item {
             playlist.songid = list[12];
             lastsongid = list[12];
         }
-                randombutton.checked = random;
+        randombutton.checked = random;
 	repeatbutton.checked = repeat;
+	
+	// Update currentsongpage
+	currentsongpage.title = title;
+	currentsongpage.album = album;
+	currentsongpage.artist = artist;
+	//currentsongpage.lengthtextcurrent = trackposition;
+	//currentsongpage.lengthtextcomplete = tracklength;
+	currentsongpage.uri = list[11];
+	currentsongpage.nr = (list[10]===0? "":list[10]);
+	currentsongpage.bitrate = list[5]+"kbps";
+	currentsongpage.audioproperties = list[13]+ "Hz "+ list[14] + "Bits " + list[15]+ "Channels";
     }
 
     function savedPlaylistClicked(modelData)
@@ -702,54 +718,6 @@ Item {
     {
         playPlaylistTrack(index);
     }
-    function parseClicked(index)
-    {
-        if(pageStack.currentPage==mainPage){
-            if(list_view1.model.get(index).ident=="playlist"){
-                if(connected)
-                    pageStack.push(playlistpage);
-            }
-            else if(list_view1.model.get(index).ident=="settings"){
-                pageStack.push(Qt.resolvedUrl("SettingsList.qml"));
-
-                //pageStack.push(settingslist);
-
-            }
-            else if(list_view1.model.get(index).ident=="currentsong"){
-                if(connected)
-                    pageStack.push(currentsongpage);
-            }
-            else if(list_view1.model.get(index).ident=="albums"){
-                artistname = "";
-                if(connected)
-                    requestAlbums();
-
-            }
-            else if(list_view1.model.get(index).ident=="artists"){
-                if(connected)
-                    requestArtists();
-
-            }
-            else if(list_view1.model.get(index).ident=="files"){
-                if(connected)
-                    filesClicked("/");
-
-            }
-            else if(list_view1.model.get(index).ident=="connectto"){
-                selectserverdialog.visible=true;
-                selectserverdialog.open();
-            }
-            else if(list_view1.model.get(index).ident=="about"){
-                aboutdialog.visible=true;
-                aboutdialog.version = versionstring;
-                aboutdialog.open();
-            }
-            else if(list_view1.model.get(index).ident=="updatedb"){
-                updateDB();
-            }
-        }
-
-    }
 
     function artistClicked(item)
     {
@@ -768,6 +736,7 @@ Item {
         savedplaylists.visible=false;
         savedplaylisttracks.visible=false;
         serversettingspage.visible=false;
+	currentsongpage.visible=false;
     }
 }
 

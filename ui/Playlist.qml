@@ -103,10 +103,16 @@ Rectangle{
             MouseArea{
                 anchors.fill: parent
                 onClicked:{
+		  console.log("Playlist item clicked");
                     if(!playing)
                     {
                         parseClickedPlaylist(index);
                     }
+                    else {
+			playlist.visible=false;
+			console.log ("Show current song page");
+			currentsongpage.visible = true;
+		    }
                 }
             }
             Row{

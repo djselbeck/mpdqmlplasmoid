@@ -297,6 +297,9 @@ void Controller::updateStatus(status_struct status)
     strings.append(QString::number(status.tracknr));
     strings.append(status.fileuri);
     strings.append(QString::number(status.id));
+    strings.append(QString::number(status.samplerate));
+    strings.append(QString::number(status.bitdepth));
+    strings.append(QString::number(status.channelcount));
     volume = status.volume;
 
     emit statusReady(strings);

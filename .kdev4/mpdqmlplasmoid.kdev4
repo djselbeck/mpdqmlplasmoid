@@ -9,7 +9,13 @@ ProjectRootRelative=./
 
 [CMake][CMake Build Directory 0]
 Build Directory Path=file:///home/hendrik/projects/mpdqmlplasmoid/build
+Build Type=
+CMake Binary=file:///usr/bin/cmake
+Install Directory=file:///home/hendrik/testplasmoid
 
 [MakeBuilder]
 Default Make Environment Profile=0
 Number Of Jobs=4
+
+[Project]
+VersionControlSupport=kdevgit

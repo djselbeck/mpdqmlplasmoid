@@ -20,6 +20,7 @@ Rectangle{
 
 
     Flickable{
+        id: infoFlickable
         anchors {fill:parent}
         contentHeight: infocolumn.height
         clip: true
@@ -27,12 +28,17 @@ Rectangle{
             id: infocolumn
             //anchors {left:parent.left; right: parent.right; top:parent.top; bottom:parent.bottom}
             anchors {left:parent.left; right: parent.right;}
-            Text{text: "Title:";color:"black";font.pointSize: fontsizeblack}
-            Text{id:titleText ;text: "";color:"black";font.pointSize:fontsize;wrapMode: "WordWrap";anchors {left:parent.left; right: parent.right;}}
-            Text{text: "Album:";color:"black";font.pointSize: fontsizeblack}
-            Text{id:albumText ;text: "";color:"black";font.pointSize:fontsize;wrapMode: "WordWrap";anchors {left:parent.left; right: parent.right;}}
-            Text{text: "Artist:";color:"black";font.pointSize: fontsizeblack}
-            Text{id:artistText ;text: "";color:"black";font.pointSize:fontsize;wrapMode: "WordWrap";anchors {left:parent.left; right: parent.right;}}
+	    Image{
+                id: coverImage
+                height: infoFlickable.height - (titleText.height + albumText.height + artistText.height)
+                width: height
+                anchors.horizontalCenter: parent.horizontalCenter
+                fillMode: Image.PreserveAspectCrop
+                source: coverimageurl
+            }
+            Text{id:titleText ;text: "";color:"black";font.pointSize:fontsize;wrapMode: "WordWrap";anchors {horizontalCenter:parent.horizontalCenter}}
+            Text{id:albumText ;text: "";color:"black";font.pointSize:fontsize;wrapMode: "WordWrap";anchors {horizontalCenter:parent.horizontalCenter}}
+            Text{id:artistText ;text: "";color:"black";font.pointSize:fontsize;wrapMode: "WordWrap";anchors {horizontalCenter:parent.horizontalCenter}}
             Text{text: "Nr.:";color:"black";font.pointSize: fontsizeblack}
             Text{id:nrText ;text: "";color:"black";font.pointSize:fontsize;wrapMode: "WordWrap";anchors {left:parent.left; right: parent.right;}}
             Text{text: "Bitrate:";color:"black";font.pointSize: fontsizeblack}

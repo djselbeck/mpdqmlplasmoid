@@ -22,6 +22,9 @@ Item {
     property int trackposition;
     property int lastsongid;
     property bool connected:false;
+    property string coverimageurl;
+    // Only for use with this widget !!!
+    property string lastfmapikey : "b274b1428cdf1555a44e356046bf0042";
 
     property int volume:0;
 
@@ -566,6 +569,7 @@ Item {
             playlist.songid=-1;
             playlist.songid = list[12];
             lastsongid = list[12];
+	    makeLastFMRequestURL();
         }
         randombutton.checked = random;
 	repeatbutton.checked = repeat;
@@ -738,5 +742,54 @@ Item {
         serversettingspage.visible=false;
 	currentsongpage.visible=false;
     }
+    
+    
+    function makeLastFMRequestURL()
+            {
+                var url = "";
+                url = "http://ws.audioscrobbler.com/2.0/?method=album.getinfo&api_key="+ lastfmapikey + "&artist="+artist+"&album="+album
+                console.debug("LastFM url created: " + url);
+                coverfetcherXMLModel.source = url;
+
+                coverfetcherXMLModel.reload();
+
+
+                return url;
+            }
+
+            XmlListModel
+            {
+                id: coverfetcherXMLModel
+                query: "/lfm/album/image"
+                XmlRole { name: "image"; query: "./string()" }
+                XmlRole { name: "size"; query: "@size/string()" }
+                onStatusChanged: {
+                    console.debug("XML status changed to: "+ status);
+                    if(status == XmlListModel.Ready)
+                    {
+                        if(count>0)
+                        {
+                            console.debug("Xml model ready, count: "+count);
+                            for (var i = 0;i <count;i++)
+                            {
+                                console.debug("item: "+i);
+                                console.debug(coverfetcherXMLModel.get(i).size+":");
+                                console.debug(coverfetcherXMLModel.get(i).image);
+                            }
+                            console.debug("imageurl: " + coverfetcherXMLModel.get(coverfetcherXMLModel.count-1).image);
+                            var coverurl = coverfetcherXMLModel.get(coverfetcherXMLModel.count-1).image;
+                            if(coverurl !== coverimageurl) {
+                                // global
+                                coverimageurl = coverfetcherXMLModel.get(coverfetcherXMLModel.count-1).image;
+                            }
+                        }
+                    }
+                    if(status == XmlListModel.Error)
+                    {
+                        console.debug(coverfetcherXMLModel.errorString());
+                    }
+                }
+            }
+    
 }
 
